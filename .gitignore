@@ -1,0 +1,5 @@
+.DS_Store
+.vscode
+.dart_tool/
+pubspec.lock
+example
