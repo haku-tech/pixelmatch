@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
-bool antialiased(Uint8List img, int x1, int y1, int width, int height, Uint8List img2) {
+bool antialiased(
+    Uint8List img, Uint8List img2, int width, int height, int x1, int y1) {
   final x0 = x1 > 0 ? x1 - 1 : 0;
   final y0 = y1 > 0 ? y1 - 1 : 0;
   final x2 = x1 < width - 1 ? x1 + 1 : width - 1;
@@ -34,8 +35,10 @@ bool antialiased(Uint8List img, int x1, int y1, int width, int height, Uint8List
 
   if (min == 0 || max == 0) return false;
 
-  return (hasManySiblings(img, minX!, minY!, width, height) && hasManySiblings(img2, minX, minY, width, height)) ||
-         (hasManySiblings(img, maxX!, maxY!, width, height) && hasManySiblings(img2, maxX, maxY, width, height));
+  return (hasManySiblings(img, minX!, minY!, width, height) &&
+          hasManySiblings(img2, minX, minY, width, height)) ||
+      (hasManySiblings(img, maxX!, maxY!, width, height) &&
+          hasManySiblings(img2, maxX, maxY, width, height));
 }
 
 bool hasManySiblings(Uint8List img, int x1, int y1, int width, int height) {
@@ -65,7 +68,8 @@ bool hasManySiblings(Uint8List img, int x1, int y1, int width, int height) {
   return false;
 }
 
-double colorDelta(Uint8List img1, Uint8List img2, int k, int m, [bool yOnly = false]) {
+double colorDelta(Uint8List img1, Uint8List img2, int k, int m,
+    [bool yOnly = false]) {
   double r1 = img1[k + 0].toDouble();
   double g1 = img1[k + 1].toDouble();
   double b1 = img1[k + 2].toDouble();
@@ -106,9 +110,12 @@ double colorDelta(Uint8List img1, Uint8List img2, int k, int m, [bool yOnly = fa
   return y1 > y2 ? -delta : delta;
 }
 
-double rgb2y(double r, double g, double b) => r * 0.29889531 + g * 0.58662247 + b * 0.11448223;
-double rgb2i(double r, double g, double b) => r * 0.59597799 - g * 0.27417610 - b * 0.32180189;
-double rgb2q(double r, double g, double b) => r * 0.21147017 - g * 0.52261711 + b * 0.31114694;
+double rgb2y(double r, double g, double b) =>
+    r * 0.29889531 + g * 0.58662247 + b * 0.11448223;
+double rgb2i(double r, double g, double b) =>
+    r * 0.59597799 - g * 0.27417610 - b * 0.32180189;
+double rgb2q(double r, double g, double b) =>
+    r * 0.21147017 - g * 0.52261711 + b * 0.31114694;
 
 double blend(double c, double a) => (255.0 + (c - 255.0) * a);
 

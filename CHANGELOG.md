@@ -1,3 +1,7 @@
 ## 1.0.0
 
-- All test passed.
+- Initial version
+
+## 1.0.1
+
+- Fix sdk dependency

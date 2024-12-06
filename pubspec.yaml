@@ -1,10 +1,10 @@
 name: pixelmatch
-description: Simple diff pixel image comparison library
-version: 1.0.0
+description: Diff images on CPU. Small, fast pixel-level image comparison library for e2e testing.
+version: 1.0.1
 repository: https://github.com/munrocket/pixelmatch
 
 environment:
-  sdk: ^3.6.0-334.4.beta
+  sdk: ^3.0.0
 
 dev_dependencies:
   image: ^4.3.0

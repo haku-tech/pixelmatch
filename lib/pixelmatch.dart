@@ -40,18 +40,21 @@ const Map<String, dynamic> defaultOptions = {
 ///
 /// Throws:
 /// * [ArgumentError] if image sizes don't match or if image data size doesn't match dimensions
-int pixelmatch(Uint8List img1, Uint8List img2, Uint8List? output, int width, int height, Map<String, dynamic> options) {
-
-  if (img1.length != img2.length || (output != null && output.length != img1.length)) {
-    throw ArgumentError('Image sizes do not match. (${img1.length}, ${img2.length}, ${output!.length})');
+int pixelmatch(Uint8List img1, Uint8List img2, Uint8List? output, int width,
+    int height, Map<String, dynamic> options) {
+  if (img1.length != img2.length ||
+      (output != null && output.length != img1.length)) {
+    throw ArgumentError(
+        'Image sizes do not match. (${img1.length}, ${img2.length}, ${output!.length})');
   }
-  
+
   final len = width * height;
   if (img1.length != len * 4) {
-    throw ArgumentError('Image data size does not match width/height. (${img1.length}, ${len * 4})');
+    throw ArgumentError(
+        'Image data size does not match width/height. (${img1.length}, ${len * 4})');
   }
 
-  options =  {...defaultOptions, ...options};
+  options = {...defaultOptions, ...options};
 
   final a32 = Uint32List.view(img1.buffer, img1.offsetInBytes, len);
   final b32 = Uint32List.view(img2.buffer, img2.offsetInBytes, len);
@@ -75,7 +78,8 @@ int pixelmatch(Uint8List img1, Uint8List img2, Uint8List? output, int width, int
   final double maxDelta = 35215.0 * options['threshold'] * options['threshold'];
   final aaColor = options['aaColor'] as List<int>;
   final diffColor = options['diffColor'] as List<int>;
-  final diffColorAlt = options['diffColorAlt'] ?? options['diffColor'] as List<int>;
+  final diffColorAlt =
+      options['diffColorAlt'] ?? options['diffColor'] as List<int>;
   int diff = 0;
 
   for (var y = 0; y < height; y++) {
@@ -84,15 +88,17 @@ int pixelmatch(Uint8List img1, Uint8List img2, Uint8List? output, int width, int
       final delta = colorDelta(img1, img2, pos, pos);
 
       if (delta.abs() > maxDelta) {
-        if (!options['includeAA'] && (antialiased(img1, x, y, width, height, img2) ||
-                                      antialiased(img2, x, y, width, height, img1))) {
+        if (!options['includeAA'] &&
+            (antialiased(img1, img2, width, height, x, y) ||
+                antialiased(img2, img1, width, height, x, y))) {
           if (output != null && !options['diffMask']) {
             drawPixel(output, pos, aaColor[0], aaColor[1], aaColor[2]);
           }
         } else {
           if (output != null) {
             if (delta < 0) {
-              drawPixel(output, pos, diffColorAlt[0], diffColorAlt[1], diffColorAlt[2]);
+              drawPixel(output, pos, diffColorAlt[0], diffColorAlt[1],
+                  diffColorAlt[2]);
             } else {
               drawPixel(output, pos, diffColor[0], diffColor[1], diffColor[2]);
             }

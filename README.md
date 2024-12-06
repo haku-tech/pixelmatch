@@ -1,6 +1,6 @@
 # pixelmatch
 
-Diff images in e2e testing. Small, fast pixel-level image comparison library.
+Diff images on CPU. Small, fast pixel-level image comparison library for e2e testing.
 
 ## Features
 
