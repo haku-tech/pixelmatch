@@ -15,14 +15,13 @@ jobs:
     steps:
       - name: Git checkout
         uses: actions/checkout@v4
-      - name: Setup dart sdk
-        uses: dart-lang/setup-dart@9a04e6d73cca37bd455e0608d7e5092f881fd603
+      - name: Install flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
       - name: Get dependencies
         run: dart pub get
-
-      - name: === LINT TESTING ===
-        run: dart analyze
-        continue-on-error: true
-
-      - name: === UNIT TESTING ===
-        run: dart test --reporter=github
+      - name: == Dart testing ==
+        run: dart test test/dart_test.dart --reporter=github
+      - name: == Flutter testing ==
+        run: flutter test test/integration_test.dart --reporter=github

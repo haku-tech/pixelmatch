@@ -1,7 +1,9 @@
 library;
 
 import 'dart:typed_data';
-import 'src/utils.dart';
+import 'src/private_utils.dart';
+
+export '' if (dart.library.ui) 'integration_utils.dart';
 
 /// Default options for pixel matching.
 ///
@@ -29,8 +31,8 @@ const Map<String, dynamic> defaultOptions = {
 /// Returns the number of pixels that are different between the two images.
 ///
 /// Parameters:
-/// * [img1] - First image data as RGBA bytes
-/// * [img2] - Second image data as RGBA bytes
+/// * [rgbaImg1] - First image data as RGBA bytes
+/// * [rgbaImg2] - Second image data as RGBA bytes
 /// * [output] - Optional output image data where the diff will be drawn
 /// * [width] - Width of the images in pixels
 /// * [height] - Height of the images in pixels
@@ -40,24 +42,24 @@ const Map<String, dynamic> defaultOptions = {
 ///
 /// Throws:
 /// * [ArgumentError] if image sizes don't match or if image data size doesn't match dimensions
-int pixelmatch(Uint8List img1, Uint8List img2, Uint8List? output, int width,
+int pixelmatch(Uint8List rgbaImg1, Uint8List rgbaImg2, Uint8List? output, int width,
     int height, Map<String, dynamic> options) {
-  if (img1.length != img2.length ||
-      (output != null && output.length != img1.length)) {
+  if (rgbaImg1.length != rgbaImg2.length ||
+      (output != null && output.length != rgbaImg1.length)) {
     throw ArgumentError(
-        'Image sizes do not match. (${img1.length}, ${img2.length}, ${output!.length})');
+        'Image sizes do not match. (${rgbaImg1.length}, ${rgbaImg2.length}, ${output!.length})');
   }
 
   final len = width * height;
-  if (img1.length != len * 4) {
+  if (rgbaImg1.length != len * 4) {
     throw ArgumentError(
-        'Image data size does not match width/height. (${img1.length}, ${len * 4})');
+        'Image data size does not match width/height. (${rgbaImg1.length}, ${len * 4})');
   }
 
   options = {...defaultOptions, ...options};
 
-  final a32 = Uint32List.view(img1.buffer, img1.offsetInBytes, len);
-  final b32 = Uint32List.view(img2.buffer, img2.offsetInBytes, len);
+  final a32 = Uint32List.view(rgbaImg1.buffer, rgbaImg1.offsetInBytes, len);
+  final b32 = Uint32List.view(rgbaImg2.buffer, rgbaImg2.offsetInBytes, len);
   bool identical = true;
 
   for (var i = 0; i < len; i++) {
@@ -69,7 +71,7 @@ int pixelmatch(Uint8List img1, Uint8List img2, Uint8List? output, int width,
   if (identical) {
     if (output != null && !options['diffMask']) {
       for (var i = 0; i < len; i++) {
-        drawGrayPixel(img1, 4 * i, options['alpha'], output);
+        drawGrayPixel(rgbaImg1, 4 * i, options['alpha'], output);
       }
     }
     return 0;
@@ -85,12 +87,12 @@ int pixelmatch(Uint8List img1, Uint8List img2, Uint8List? output, int width,
   for (var y = 0; y < height; y++) {
     for (var x = 0; x < width; x++) {
       final pos = (y * width + x) * 4;
-      final delta = colorDelta(img1, img2, pos, pos);
+      final delta = colorDelta(rgbaImg1, rgbaImg2, pos, pos);
 
       if (delta.abs() > maxDelta) {
         if (!options['includeAA'] &&
-            (antialiased(img1, img2, width, height, x, y) ||
-                antialiased(img2, img1, width, height, x, y))) {
+            (antialiased(rgbaImg1, rgbaImg2, width, height, x, y) ||
+                antialiased(rgbaImg2, rgbaImg1, width, height, x, y))) {
           if (output != null && !options['diffMask']) {
             drawPixel(output, pos, aaColor[0], aaColor[1], aaColor[2]);
           }
@@ -107,7 +109,7 @@ int pixelmatch(Uint8List img1, Uint8List img2, Uint8List? output, int width,
         }
       } else if (output != null) {
         if (!options['diffMask']) {
-          drawGrayPixel(img1, pos, options['alpha'], output);
+          drawGrayPixel(rgbaImg1, pos, options['alpha'], output);
         }
       }
     }

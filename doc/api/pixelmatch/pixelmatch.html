@@ -57,13 +57,13 @@
 
     <section class="multi-line-signature">
         
-<span class="returntype"><a href="https://api.dart.dev/beta/3.6.0-334.4.beta/dart-core/int-class.html">int</a></span>
-<span class="name ">pixelmatch</span>(<wbr><ol class="parameter-list"> <li><span class="parameter" id="pixelmatch-param-img1"><span class="type-annotation"><a href="https://api.dart.dev/beta/3.6.0-334.4.beta/dart-typed_data/Uint8List-class.html">Uint8List</a></span> <span class="parameter-name">img1</span>, </span></li>
-<li><span class="parameter" id="pixelmatch-param-img2"><span class="type-annotation"><a href="https://api.dart.dev/beta/3.6.0-334.4.beta/dart-typed_data/Uint8List-class.html">Uint8List</a></span> <span class="parameter-name">img2</span>, </span></li>
-<li><span class="parameter" id="pixelmatch-param-output"><span class="type-annotation"><a href="https://api.dart.dev/beta/3.6.0-334.4.beta/dart-typed_data/Uint8List-class.html">Uint8List</a>?</span> <span class="parameter-name">output</span>, </span></li>
-<li><span class="parameter" id="pixelmatch-param-width"><span class="type-annotation"><a href="https://api.dart.dev/beta/3.6.0-334.4.beta/dart-core/int-class.html">int</a></span> <span class="parameter-name">width</span>, </span></li>
-<li><span class="parameter" id="pixelmatch-param-height"><span class="type-annotation"><a href="https://api.dart.dev/beta/3.6.0-334.4.beta/dart-core/int-class.html">int</a></span> <span class="parameter-name">height</span>, </span></li>
-<li><span class="parameter" id="pixelmatch-param-options"><span class="type-annotation"><a href="https://api.dart.dev/beta/3.6.0-334.4.beta/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/beta/3.6.0-334.4.beta/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">options</span>, </span></li>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.6.0/dart-core/int-class.html">int</a></span>
+<span class="name ">pixelmatch</span>(<wbr><ol class="parameter-list"> <li><span class="parameter" id="pixelmatch-param-rgbaImg1"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.6.0/dart-typed_data/Uint8List-class.html">Uint8List</a></span> <span class="parameter-name">rgbaImg1</span>, </span></li>
+<li><span class="parameter" id="pixelmatch-param-rgbaImg2"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.6.0/dart-typed_data/Uint8List-class.html">Uint8List</a></span> <span class="parameter-name">rgbaImg2</span>, </span></li>
+<li><span class="parameter" id="pixelmatch-param-output"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.6.0/dart-typed_data/Uint8List-class.html">Uint8List</a>?</span> <span class="parameter-name">output</span>, </span></li>
+<li><span class="parameter" id="pixelmatch-param-width"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.6.0/dart-core/int-class.html">int</a></span> <span class="parameter-name">width</span>, </span></li>
+<li><span class="parameter" id="pixelmatch-param-height"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.6.0/dart-core/int-class.html">int</a></span> <span class="parameter-name">height</span>, </span></li>
+<li><span class="parameter" id="pixelmatch-param-options"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.6.0/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.6.0/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">options</span>, </span></li>
 </ol>)
 
         
@@ -76,8 +76,8 @@
 Returns the number of pixels that are different between the two images.</p>
 <p>Parameters:</p>
 <ul>
-<li><code>img1</code> - First image data as RGBA bytes</li>
-<li><code>img2</code> - Second image data as RGBA bytes</li>
+<li><code>rgbaImg1</code> - First image data as RGBA bytes</li>
+<li><code>rgbaImg2</code> - Second image data as RGBA bytes</li>
 <li><code>output</code> - Optional output image data where the diff will be drawn</li>
 <li><code>width</code> - Width of the images in pixels</li>
 <li><code>height</code> - Height of the images in pixels</li>
@@ -86,7 +86,7 @@ Returns the number of pixels that are different between the two images.</p>
 <p>Returns the number of pixels that differ between the images.</p>
 <p>Throws:</p>
 <ul>
-<li><a href="https://api.dart.dev/beta/3.6.0-334.4.beta/dart-core/ArgumentError-class.html">ArgumentError</a> if image sizes don't match or if image data size doesn't match dimensions</li>
+<li><a href="https://api.dart.dev/stable/3.6.0/dart-core/ArgumentError-class.html">ArgumentError</a> if image sizes don't match or if image data size doesn't match dimensions</li>
 </ul>
 </section>
 
@@ -94,21 +94,24 @@ Returns the number of pixels that are different between the two images.</p>
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">int pixelmatch(Uint8List img1, Uint8List img2, Uint8List? output, int width, int height, Map&lt;String, dynamic&gt; options) {
-
-  if (img1.length != img2.length || (output != null &amp;&amp; output.length != img1.length)) {
-    throw ArgumentError(&#39;Image sizes do not match. (${img1.length}, ${img2.length}, ${output!.length})&#39;);
+  <pre class="language-dart"><code class="language-dart">int pixelmatch(Uint8List rgbaImg1, Uint8List rgbaImg2, Uint8List? output, int width,
+    int height, Map&lt;String, dynamic&gt; options) {
+  if (rgbaImg1.length != rgbaImg2.length ||
+      (output != null &amp;&amp; output.length != rgbaImg1.length)) {
+    throw ArgumentError(
+        &#39;Image sizes do not match. (${rgbaImg1.length}, ${rgbaImg2.length}, ${output!.length})&#39;);
   }
 
   final len = width * height;
-  if (img1.length != len * 4) {
-    throw ArgumentError(&#39;Image data size does not match width&#47;height. (${img1.length}, ${len * 4})&#39;);
+  if (rgbaImg1.length != len * 4) {
+    throw ArgumentError(
+        &#39;Image data size does not match width&#47;height. (${rgbaImg1.length}, ${len * 4})&#39;);
   }
 
-  options =  {...defaultOptions, ...options};
+  options = {...defaultOptions, ...options};
 
-  final a32 = Uint32List.view(img1.buffer, img1.offsetInBytes, len);
-  final b32 = Uint32List.view(img2.buffer, img2.offsetInBytes, len);
+  final a32 = Uint32List.view(rgbaImg1.buffer, rgbaImg1.offsetInBytes, len);
+  final b32 = Uint32List.view(rgbaImg2.buffer, rgbaImg2.offsetInBytes, len);
   bool identical = true;
 
   for (var i = 0; i &lt; len; i++) {
@@ -120,7 +123,7 @@ Returns the number of pixels that are different between the two images.</p>
   if (identical) {
     if (output != null &amp;&amp; !options[&#39;diffMask&#39;]) {
       for (var i = 0; i &lt; len; i++) {
-        drawGrayPixel(img1, 4 * i, options[&#39;alpha&#39;], output);
+        drawGrayPixel(rgbaImg1, 4 * i, options[&#39;alpha&#39;], output);
       }
     }
     return 0;
@@ -129,24 +132,27 @@ Returns the number of pixels that are different between the two images.</p>
   final double maxDelta = 35215.0 * options[&#39;threshold&#39;] * options[&#39;threshold&#39;];
   final aaColor = options[&#39;aaColor&#39;] as List&lt;int&gt;;
   final diffColor = options[&#39;diffColor&#39;] as List&lt;int&gt;;
-  final diffColorAlt = options[&#39;diffColorAlt&#39;] ?? options[&#39;diffColor&#39;] as List&lt;int&gt;;
+  final diffColorAlt =
+      options[&#39;diffColorAlt&#39;] ?? options[&#39;diffColor&#39;] as List&lt;int&gt;;
   int diff = 0;
 
   for (var y = 0; y &lt; height; y++) {
     for (var x = 0; x &lt; width; x++) {
       final pos = (y * width + x) * 4;
-      final delta = colorDelta(img1, img2, pos, pos);
+      final delta = colorDelta(rgbaImg1, rgbaImg2, pos, pos);
 
       if (delta.abs() &gt; maxDelta) {
-        if (!options[&#39;includeAA&#39;] &amp;&amp; (antialiased(img1, x, y, width, height, img2) ||
-                                      antialiased(img2, x, y, width, height, img1))) {
+        if (!options[&#39;includeAA&#39;] &amp;&amp;
+            (antialiased(rgbaImg1, rgbaImg2, width, height, x, y) ||
+                antialiased(rgbaImg2, rgbaImg1, width, height, x, y))) {
           if (output != null &amp;&amp; !options[&#39;diffMask&#39;]) {
             drawPixel(output, pos, aaColor[0], aaColor[1], aaColor[2]);
           }
         } else {
           if (output != null) {
             if (delta &lt; 0) {
-              drawPixel(output, pos, diffColorAlt[0], diffColorAlt[1], diffColorAlt[2]);
+              drawPixel(output, pos, diffColorAlt[0], diffColorAlt[1],
+                  diffColorAlt[2]);
             } else {
               drawPixel(output, pos, diffColor[0], diffColor[1], diffColor[2]);
             }
@@ -155,7 +161,7 @@ Returns the number of pixels that are different between the two images.</p>
         }
       } else if (output != null) {
         if (!options[&#39;diffMask&#39;]) {
-          drawGrayPixel(img1, pos, options[&#39;alpha&#39;], output);
+          drawGrayPixel(rgbaImg1, pos, options[&#39;alpha&#39;], output);
         }
       }
     }
@@ -189,7 +195,7 @@ Returns the number of pixels that are different between the two images.</p>
 <footer>
   <span class="no-break">
     pixelmatch
-      1.0.0
+      1.0.1
   </span>
   
 </footer>

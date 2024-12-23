@@ -1,12 +1,14 @@
 name: pixelmatch
 description: Diff images on CPU. Small, fast pixel-level image comparison library for e2e testing.
-version: 1.0.1
+version: 1.1.0
 repository: https://github.com/munrocket/pixelmatch
 
 environment:
   sdk: ^3.0.0
 
 dev_dependencies:
+  flutter:
+    sdk: flutter
   image: ^4.3.0
   lints: ^5.0.0
   test: ^1.24.0
