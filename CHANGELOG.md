@@ -6,7 +6,7 @@
 
 - Fix sdk dependency
 
-## 1.1.0
+## 1.1.1
 
 - Utils for integration_testing
 - Universal flutter and dart sdk package
