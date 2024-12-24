@@ -13,11 +13,9 @@ Diff images on CPU. Small, fast pixel-level image comparison library for e2e tes
 | --- | --- | --- |
 | ![](test/fixtures/4a.png) | ![](test/fixtures/4b.png) | ![diff](test/fixtures/4diff.png) |
 
-## Getting started
+## Usage
 
 In dart, give Uint8List with RGBA canvas to it somehow.
-
-## Usage
 
 ```dart
 import 'package:pixelmatch/pixelmatch.dart';
