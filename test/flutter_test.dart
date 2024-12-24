@@ -1,9 +1,7 @@
 import 'package:pixelmatch/pixelmatch.dart';
-import 'package:pixelmatch/integration_utils.dart';
+import 'package:pixelmatch/utils.dart';
 import 'package:test/test.dart';
 import 'dart:typed_data';
-//import 'dart:ui';
-
 void main() {
 
   test('Pixelmatch and readPng tests', () async {
@@ -37,5 +35,22 @@ void main() {
     await writePng('test/fixtures/2a-resized.png', resized);
     final rgbaWriten = await imgToRgba(await readPng('test/fixtures/2a-resized.png'));
     expectLater(rgbaExisted, equals(rgbaWriten), reason: 'written image is different');
+  });
+
+  test('Raw resize and imgPixelmatch', () async {
+    final img = await readPng('test/fixtures/2a.png');
+    final rawResized = resizeRawImage(await encodePng(img), 100, 100);
+    final resized = await decodePng(Uint8List.fromList(await rawResized));
+    expectLater(resized.width, equals(100), reason: 'width is different');
+    final existed = await readPng('test/fixtures/2a-resized.png');
+    final diffNum = (await imgPixelmatch(existed, resized, {})).$1;
+    expectLater(0, diffNum, reason: 'resized image is different');
+    final img2 = await readPng('test/fixtures/2b.png');
+    final options = {'threshold': 0.05, 'alpha': 0.5, 'aaColor': [0, 192, 0], 'diffColor': [255, 0, 255]};
+    final diff = await imgPixelmatch(img, img2, options);
+    expect(diff.$1, 12437 / (img2.width * img2.height), reason: 'imgPixelmatch from disk');
+    final expected = await readPng('test/fixtures/2diff.png');
+    final rgbaExp = await imgToRgba(expected);
+    expectLater(rgbaExp, equals(diff.$2), reason: 'resized image is different');
   });
 }

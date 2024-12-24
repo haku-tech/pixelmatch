@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the imgToRgba function from the utils library, for the Dart programming language.">
-  <title>imgToRgba function - utils library - Dart API</title>
+  <meta name="description" content="API docs for the imgPixelmatch function from the utils library, for the Dart programming language.">
+  <title>imgPixelmatch function - utils library - Dart API</title>
 
 
   
@@ -26,9 +26,9 @@
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../index.html">pixelmatch</a></li>
     <li><a href="../utils">utils.dart</a></li>
-    <li class="self-crumb">imgToRgba function</li>
+    <li class="self-crumb">imgPixelmatch function</li>
   </ol>
-  <div class="self-name">imgToRgba</div>
+  <div class="self-name">imgPixelmatch</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -51,14 +51,16 @@
       data-above-sidebar="utils&#47;utils-library-sidebar.html"
       data-below-sidebar="">
       <div>
-<h1><span class="kind-function">imgToRgba</span> function 
+<h1><span class="kind-function">imgPixelmatch</span> function 
  
 </h1></div>
 
     <section class="multi-line-signature">
         
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-typed_data/Uint8List-class.html">Uint8List</a></span>&gt;</span></span>
-<span class="name ">imgToRgba</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="imgToRgba-param-image"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-ui/Image-class.html">Image</a></span> <span class="parameter-name">image</span></span></li>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">(<span class="field"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>, </span><span class="field"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-typed_data/Uint8List-class.html">Uint8List</a></span></span>)</span>&gt;</span></span>
+<span class="name ">imgPixelmatch</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="imgPixelmatch-param-img1"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-ui/Image-class.html">Image</a></span> <span class="parameter-name">img1</span>, </span></li>
+<li><span class="parameter" id="imgPixelmatch-param-img2"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-ui/Image-class.html">Image</a></span> <span class="parameter-name">img2</span>, </span></li>
+<li><span class="parameter" id="imgPixelmatch-param-options"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">options</span></span></li>
 </ol>)
 
         
@@ -66,21 +68,32 @@
     </section>
     
 <section class="desc markdown">
-  <p>Converts an <a href="https://api.flutter.dev/flutter/dart-ui/Image-class.html">Image</a> object to raw RGBA bytes.</p>
+  <p>Compares two <a href="https://api.flutter.dev/flutter/dart-ui/Image-class.html">Image</a> objects and calculates the number of differing pixels.</p>
 <p>Parameters:</p>
 <ul>
-<li>image: The source <a href="https://api.flutter.dev/flutter/dart-ui/Image-class.html">Image</a> object</li>
+<li>img1: The first <a href="https://api.flutter.dev/flutter/dart-ui/Image-class.html">Image</a> object to compare.</li>
+<li>img2: The second <a href="https://api.flutter.dev/flutter/dart-ui/Image-class.html">Image</a> object to compare.</li>
+<li>options: A map of options to customize the comparison.</li>
 </ul>
-<p>Returns a Future that completes with the image data as RGBA bytes.</p>
+<p>Returns a Future that completes with a tuple containing:</p>
+<ul>
+<li>A <a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a> representing the ratio of differing pixels to the total
+number of pixels in the images.</li>
+<li>A <a href="https://api.flutter.dev/flutter/dart-typed_data/Uint8List-class.html">Uint8List</a> containing the raw RGBA byte data of the difference image.</li>
+</ul>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Future&lt;Uint8List&gt; imgToRgba(Image image) async {
-  final data = await image.toByteData(format: ImageByteFormat.rawRgba);
-  return data!.buffer.asUint8List();
+  <pre class="language-dart"><code class="language-dart">Future&lt;(double, Uint8List)&gt; imgPixelmatch(Image img1, Image img2, Map&lt;String, dynamic&gt; options) async {
+  final rgba1 = await imgToRgba(img1);
+  final rgba2 = await imgToRgba(img2);
+  final diff = Uint8List(rgba1.length);
+  final numPix = pixelmatch(rgba1, rgba2, diff, img1.width, img1.height, options);
+  final ratio = numPix &#47; (img1.width * img1.height);
+  return (ratio, diff);
 }</code></pre>
 </section>
 
@@ -96,7 +109,7 @@
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
     <li><a href="../index.html">pixelmatch</a></li>
     <li><a href="../utils">utils</a></li>
-    <li class="self-crumb">imgToRgba function</li>
+    <li class="self-crumb">imgPixelmatch function</li>
 </ol>
 
     <h5>utils library</h5>

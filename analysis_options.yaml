@@ -6,4 +6,4 @@ include: package:lints/recommended.yaml
 
 analyzer:
   exclude:
-    //- test/integration_test.dart
+    //- test/flutter_test.dart

@@ -24,4 +24,4 @@ jobs:
       - name: == Dart testing ==
         run: dart test test/dart_test.dart --reporter=github
       - name: == Flutter testing ==
-        run: flutter test test/integration_test.dart --reporter=github
+        run: flutter test test/flutter_test.dart --reporter=github

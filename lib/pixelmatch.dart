@@ -3,7 +3,7 @@ library;
 import 'dart:typed_data';
 import 'src/private_utils.dart';
 
-export '' if (dart.library.ui) 'integration_utils.dart';
+export '' if (dart.library.ui) 'utils.dart';
 
 /// Default options for pixel matching.
 ///

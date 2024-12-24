@@ -2,7 +2,7 @@ import 'package:pixelmatch/pixelmatch.dart';
 import 'package:test/test.dart';
 import 'dart:typed_data';
 import 'dart:io';
-import 'package:image/image.dart';
+import 'package:image/image.dart' as img;
 
 void main() {
   const options = {'threshold': 0.05};
@@ -44,8 +44,8 @@ void diffTest(String imgPath1, String imgPath2, String diffPath,
   });
 }
 
-Image readImage(String name) {
+img.Image readImage(String name) {
   final bytes = File('test/fixtures/$name.png').readAsBytesSync();
-  final image = decodePng(bytes);
+  final image = img.decodePng(bytes);
   return image!.convert(numChannels: 4);
 }

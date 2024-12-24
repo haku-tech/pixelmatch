@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the imgToRgba function from the utils library, for the Dart programming language.">
-  <title>imgToRgba function - utils library - Dart API</title>
+  <meta name="description" content="API docs for the resizeImage function from the utils library, for the Dart programming language.">
+  <title>resizeImage function - utils library - Dart API</title>
 
 
   
@@ -26,9 +26,9 @@
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../index.html">pixelmatch</a></li>
     <li><a href="../utils">utils.dart</a></li>
-    <li class="self-crumb">imgToRgba function</li>
+    <li class="self-crumb">resizeImage function</li>
   </ol>
-  <div class="self-name">imgToRgba</div>
+  <div class="self-name">resizeImage</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -51,14 +51,16 @@
       data-above-sidebar="utils&#47;utils-library-sidebar.html"
       data-below-sidebar="">
       <div>
-<h1><span class="kind-function">imgToRgba</span> function 
+<h1><span class="kind-function">resizeImage</span> function 
  
 </h1></div>
 
     <section class="multi-line-signature">
         
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-typed_data/Uint8List-class.html">Uint8List</a></span>&gt;</span></span>
-<span class="name ">imgToRgba</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="imgToRgba-param-image"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-ui/Image-class.html">Image</a></span> <span class="parameter-name">image</span></span></li>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-ui/Image-class.html">Image</a></span>&gt;</span></span>
+<span class="name ">resizeImage</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="resizeImage-param-image"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-ui/Image-class.html">Image</a></span> <span class="parameter-name">image</span>, </span></li>
+<li><span class="parameter" id="resizeImage-param-width"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">width</span>, </span></li>
+<li><span class="parameter" id="resizeImage-param-height"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">height</span></span></li>
 </ol>)
 
         
@@ -66,21 +68,27 @@
     </section>
     
 <section class="desc markdown">
-  <p>Converts an <a href="https://api.flutter.dev/flutter/dart-ui/Image-class.html">Image</a> object to raw RGBA bytes.</p>
+  <p>Resizes an <a href="https://api.flutter.dev/flutter/dart-ui/Image-class.html">Image</a> to the specified dimensions.</p>
 <p>Parameters:</p>
 <ul>
-<li>image: The source <a href="https://api.flutter.dev/flutter/dart-ui/Image-class.html">Image</a> object</li>
+<li>image: The source <a href="https://api.flutter.dev/flutter/dart-ui/Image-class.html">Image</a> to resize</li>
+<li>width: The target width in pixels</li>
+<li>height: The target height in pixels</li>
 </ul>
-<p>Returns a Future that completes with the image data as RGBA bytes.</p>
+<p>Returns a Future that completes with the resized <a href="https://api.flutter.dev/flutter/dart-ui/Image-class.html">Image</a>.</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Future&lt;Uint8List&gt; imgToRgba(Image image) async {
-  final data = await image.toByteData(format: ImageByteFormat.rawRgba);
-  return data!.buffer.asUint8List();
+  <pre class="language-dart"><code class="language-dart">Future&lt;Image&gt; resizeImage(Image image, int width, int height) async {
+  final codec = await instantiateImageCodec(
+    await encodePng(image),
+    targetWidth: width,
+    targetHeight: height
+  );
+  return (await codec.getNextFrame()).image;
 }</code></pre>
 </section>
 
@@ -96,7 +104,7 @@
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
     <li><a href="../index.html">pixelmatch</a></li>
     <li><a href="../utils">utils</a></li>
-    <li class="self-crumb">imgToRgba function</li>
+    <li class="self-crumb">resizeImage function</li>
 </ol>
 
     <h5>utils library</h5>
